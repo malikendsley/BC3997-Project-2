@@ -36,7 +36,7 @@ func _ready():
 
 
 func gotonextscene():
-	get_tree().change_scene(startScene)
+	get_tree().change_scene_to_file(startScene)
 
 func quit():
 	get_tree().quit()

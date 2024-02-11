@@ -11,14 +11,17 @@ config_version=5
 [application]
 
 config/name="Violence Vii Plus Ultra Deluxe Super Edition"
+run/main_scene="res://Scenes/Title.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
+boot_splash/bg_color=Color(0.8, 0, 0.337255, 1)
 config/icon="res://icon.svg"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=720
+window/size/viewport_width=800
+window/size/viewport_height=600
 window/size/resizable=false
+window/stretch/aspect="ignore"
 
 [input]
 

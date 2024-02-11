@@ -29,7 +29,8 @@ func _process(delta):
 func _on_area_2d_body_entered(body:Node2D):
 	if body is MeleeEnemy:
 		body.damage()
-		$Impact.play()
+		if $Impact:
+			$Impact.play()
 		var sound = $Impact
 		remove_child(sound)
 		var particles = $Particles
