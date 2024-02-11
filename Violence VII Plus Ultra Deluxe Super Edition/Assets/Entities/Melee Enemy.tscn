@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=3 uid="uid://cjljechd4qvq2"]
+
+[ext_resource type="Script" path="res://Scripts/MeleeEnemy.gd" id="1_8y3ry"]
+[ext_resource type="Texture2D" uid="uid://dx8uxythvd6fo" path="res://Art/melee.png" id="1_us3hw"]
+[ext_resource type="AudioStream" uid="uid://cfscory1ght2u" path="res://Assets/Sounds/Boom1.wav" id="3_70nr6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_b8lr4"]
+radius = 60.0167
+
+[sub_resource type="Curve" id="Curve_ndo57"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_uqj4f"]
+offsets = PackedFloat32Array(0, 0.582418, 1)
+colors = PackedColorArray(0, 1, 0, 1, 0.792157, 0, 0.792157, 1, 1, 1, 0, 1)
+
+[node name="Melee Enemy" type="CharacterBody2D"]
+script = ExtResource("1_8y3ry")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_us3hw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_b8lr4")
+
+[node name="Explode" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_70nr6")
+
+[node name="Particles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 50
+lifetime = 2.0
+explosiveness = 1.0
+direction = Vector2(1, 1)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_max = 286.85
+scale_amount_min = 16.94
+scale_amount_max = 16.94
+scale_amount_curve = SubResource("Curve_ndo57")
+color_ramp = SubResource("Gradient_uqj4f")

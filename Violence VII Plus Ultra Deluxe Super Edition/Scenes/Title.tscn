@@ -1,0 +1,94 @@
+[gd_scene load_steps=5 format=3 uid="uid://b1k55vs8spo3l"]
+
+[ext_resource type="Script" path="res://Scripts/TitleController.gd" id="1_1wagr"]
+[ext_resource type="AudioStream" uid="uid://cfscory1ght2u" path="res://Assets/Sounds/Boom1.wav" id="2_dg07k"]
+[ext_resource type="AudioStream" uid="uid://bk3eoxr1rgje3" path="res://Assets/Sounds/BoomDrawnOut.wav" id="3_m25w4"]
+
+[sub_resource type="Theme" id="Theme_aailn"]
+default_font_size = 21
+
+[node name="Title" type="Control" node_paths=PackedStringArray("textbox1", "textbox2")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1wagr")
+textbox1 = NodePath("Panel/MarginContainer/Panel/VBoxContainer/TitleLabel")
+textbox2 = NodePath("AccentLabel")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_aailn")
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="Panel" type="Panel" parent="Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/Panel"]
+layout_mode = 2
+offset_right = 1180.0
+offset_bottom = 620.0
+theme_override_constants/separation = 25
+
+[node name="HSeparator" type="HSeparator" parent="Panel/MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="TitleLabel" type="Label" parent="Panel/MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "VIOLENCE VII PLUS ULTRA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="Panel/MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 165
+
+[node name="Button" type="Button" parent="Panel/MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "START"
+
+[node name="Button2" type="Button" parent="Panel/MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "QUIT"
+
+[node name="AccentLabel" type="Label" parent="."]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 0
+offset_left = 963.0
+offset_top = 65.0
+offset_right = 1228.0
+offset_bottom = 113.0
+rotation = 0.556736
+theme_override_font_sizes/font_size = 32
+text = " DELUXE EDITION"
+
+[node name="Blip1" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_dg07k")
+
+[node name="Blip2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_m25w4")
+
+[connection signal="pressed" from="Panel/MarginContainer/Panel/VBoxContainer/Button" to="." method="gotonextscene"]
+[connection signal="pressed" from="Panel/MarginContainer/Panel/VBoxContainer/Button2" to="." method="quit"]
