@@ -1,9 +1,40 @@
-[gd_scene load_steps=2 format=3 uid="uid://d17cifkc0xv1j"]
+[gd_scene load_steps=6 format=3 uid="uid://d17cifkc0xv1j"]
 
-[ext_resource type="Texture2D" uid="uid://coi0cyvrdy85d" path="res://Art/player.png" id="1_urdeh"]
+[ext_resource type="Script" path="res://Scripts/Player Controller.gd" id="1_6ncyf"]
+[ext_resource type="PackedScene" uid="uid://8djhav3kpfb5" path="res://Assets/Entities/Bullet.tscn" id="2_j11st"]
+[ext_resource type="Script" path="res://Scripts/CameraController.gd" id="3_yhow3"]
+[ext_resource type="Texture2D" uid="uid://coi0cyvrdy85d" path="res://Art/player.png" id="4_3p0if"]
+[ext_resource type="AudioStream" uid="uid://qrj20l7o3fd" path="res://Assets/Sounds/Shoot.wav" id="5_i1qqb"]
 
-[node name="Player" type="Node2D"]
-scale = Vector2(2, 2)
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("scoretext")]
+rotation = -1.5708
+script = ExtResource("1_6ncyf")
+bullet = ExtResource("2_j11st")
+initial_fire_rate = 6
+scoretext = NodePath("")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_urdeh")
+[node name="Camera" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
+position_smoothing_enabled = true
+script = ExtResource("3_yhow3")
+
+[node name="Player Sprite" type="Sprite2D" parent="."]
+position = Vector2(21, -3)
+rotation = 1.5708
+texture = ExtResource("4_3p0if")
+
+[node name="Player Collider" type="CollisionPolygon2D" parent="."]
+position = Vector2(-19, -13)
+rotation = 1.5708
+polygon = PackedVector2Array(69, 17, -42, 16, 12, -93)
+
+[node name="FireTimer" type="Timer" parent="."]
+
+[node name="Shoot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_i1qqb")
+max_polyphony = 8
+
+[node name="LoseTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="FireTimer" to="." method="_on_fire_timer_timeout"]
+[connection signal="timeout" from="LoseTimer" to="." method="_on_lose_timer_trigger"]

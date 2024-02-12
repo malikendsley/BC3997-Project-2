@@ -6,6 +6,14 @@ class_name Player
 var can_fire = true
 var firing = false
 var score = 0
+var disp = 0
+# If the player doesn't cross this threshold at least once every 1 second, they will lose
+var lose_time = 2.0
+var disp_threshhold = 200
+
+@onready var lose_timer = $LoseTimer as Timer
+
+@onready var shoot_sound = $Shoot
 
 @export var initial_fire_rate : int
 
@@ -15,7 +23,10 @@ var score = 0
 
 func _ready():
 	fire_timer.wait_time = 1.0 / initial_fire_rate
-
+	disp = 0
+	last_pos = global_position
+	lose_timer.wait_time = 5.0 # Be more generous at game start
+	lose_timer.start()
 func _input(event):
 	if event.is_action_pressed("Fire"):
 		firing = true
@@ -23,6 +34,7 @@ func _input(event):
 		firing = false
 		
 
+var last_pos = Vector2()
 
 func _process(_delta):
 	if not enabled:
@@ -47,6 +59,16 @@ func _process(_delta):
 		fire()
 	move_and_slide()
 
+	# Handle disp
+	disp += (global_position - last_pos).length()
+	last_pos = global_position
+
+	if disp > disp_threshhold:
+		disp = 0
+		# Reset the lose timer
+		lose_timer.stop()
+		lose_timer.wait_time = lose_time
+		lose_timer.start()
 	scoretext.text = "Violence: " + str(score)
 
 
@@ -61,7 +83,7 @@ func fire():
 	# instantiate an instance of the bullet scene
 	# fire it towards the mouse cursor
 	var bullet_instance = bullet.instantiate()
-	
+	shoot_sound.play()
 	# add the node to the scene under the Gameplay node
 	get_parent().add_child(bullet_instance)
 	bullet_instance.global_position = global_position
@@ -69,9 +91,10 @@ func fire():
 	var dir = get_global_mouse_position() - global_position
 
 	bullet_instance.fire(dir.normalized(), 1000, self)
-	print("Fire")
 	fire_timer.start()
 
 func _on_fire_timer_timeout():
 	can_fire = true
- 
+
+func _on_lose_timer_trigger(): 
+	print("You lose!")

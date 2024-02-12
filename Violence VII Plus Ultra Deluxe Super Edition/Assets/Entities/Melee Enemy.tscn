@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://cjljechd4qvq2"]
+[gd_scene load_steps=8 format=3 uid="uid://d2q4ht25t15qf"]
 
-[ext_resource type="Script" path="res://Scripts/MeleeEnemy.gd" id="1_8y3ry"]
+[ext_resource type="Script" path="res://Scripts/Enemy.gd" id="1_tj5g0"]
 [ext_resource type="Texture2D" uid="uid://dx8uxythvd6fo" path="res://Art/melee.png" id="1_us3hw"]
+[ext_resource type="PackedScene" uid="uid://dxxm1f2oqvqvg" path="res://Assets/Entities/Decal.tscn" id="2_ts4vn"]
 [ext_resource type="AudioStream" uid="uid://cfscory1ght2u" path="res://Assets/Sounds/Boom1.wav" id="3_70nr6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b8lr4"]
@@ -16,7 +17,12 @@ offsets = PackedFloat32Array(0, 0.582418, 1)
 colors = PackedColorArray(0, 1, 0, 1, 0.792157, 0, 0.792157, 1, 1, 1, 0, 1)
 
 [node name="Melee Enemy" type="CharacterBody2D"]
-script = ExtResource("1_8y3ry")
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_tj5g0")
+decaltoplace = ExtResource("2_ts4vn")
+player_distance = 100.0
+separation_distance = 0.0
+repulsion_strength = 1.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_us3hw")

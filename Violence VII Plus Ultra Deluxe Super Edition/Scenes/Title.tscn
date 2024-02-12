@@ -1,13 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://b1k55vs8spo3l"]
+[gd_scene load_steps=7 format=3 uid="uid://b1k55vs8spo3l"]
 
 [ext_resource type="Script" path="res://Scripts/TitleController.gd" id="1_1wagr"]
 [ext_resource type="AudioStream" uid="uid://cfscory1ght2u" path="res://Assets/Sounds/Boom1.wav" id="2_dg07k"]
+[ext_resource type="Script" path="res://Scripts/Modulatr.gd" id="2_fduf0"]
 [ext_resource type="AudioStream" uid="uid://bk3eoxr1rgje3" path="res://Assets/Sounds/BoomDrawnOut.wav" id="3_m25w4"]
+[ext_resource type="AudioStream" uid="uid://d0ey3cbecc6em" path="res://Assets/Sounds/Wavesound.wav" id="5_xy68j"]
 
 [sub_resource type="Theme" id="Theme_aailn"]
 default_font_size = 21
 
-[node name="Title" type="Control" node_paths=PackedStringArray("textbox1", "textbox2")]
+[node name="Title" type="Control" node_paths=PackedStringArray("textbox1", "textbox2", "textbox3")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,6 +19,7 @@ grow_vertical = 2
 script = ExtResource("1_1wagr")
 textbox1 = NodePath("Panel/MarginContainer/Panel/VBoxContainer/TitleLabel")
 textbox2 = NodePath("Panel/MarginContainer/Panel/VBoxContainer/TitleLabel/AccentLabel")
+textbox3 = NodePath("Panel/MarginContainer/Panel/VBoxContainer/TitleLabel/AccentLabel2")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -79,6 +82,26 @@ grow_vertical = 2
 rotation = 0.556736
 theme_override_font_sizes/font_size = 32
 text = " DELUXE EDITION"
+horizontal_alignment = 1
+
+[node name="AccentLabel2" type="Label" parent="Panel/MarginContainer/Panel/VBoxContainer/TitleLabel"]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -662.0
+offset_top = 26.5
+offset_right = -216.0
+offset_bottom = 117.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "GOTY EDITION"
+horizontal_alignment = 1
+script = ExtResource("2_fduf0")
 
 [node name="HSeparator2" type="HSeparator" parent="Panel/MarginContainer/Panel/VBoxContainer"]
 layout_mode = 2
@@ -99,6 +122,9 @@ stream = ExtResource("2_dg07k")
 
 [node name="Blip2" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_m25w4")
+
+[node name="Blip3" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_xy68j")
 
 [connection signal="pressed" from="Panel/MarginContainer/Panel/VBoxContainer/Button" to="." method="gotonextscene"]
 [connection signal="pressed" from="Panel/MarginContainer/Panel/VBoxContainer/Button2" to="." method="quit"]

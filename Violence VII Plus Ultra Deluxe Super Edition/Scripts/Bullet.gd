@@ -37,5 +37,6 @@ func _on_area_2d_body_entered(body:Node2D):
 		remove_child(particles)
 		get_parent().add_child(particles)
 		get_parent().add_child(sound)
-		particles.emitting = false
+		if particles:
+			particles.set_deferred("emitting", false)
 		queue_free()

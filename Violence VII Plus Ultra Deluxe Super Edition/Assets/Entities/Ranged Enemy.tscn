@@ -1,8 +1,49 @@
-[gd_scene load_steps=2 format=3 uid="uid://biyy2twm8uqmt"]
+[gd_scene load_steps=7 format=3 uid="uid://biyy2twm8uqmt"]
 
 [ext_resource type="Texture2D" uid="uid://r3lebrxb8c8r" path="res://Art/ranged.png" id="1_khj6d"]
+[ext_resource type="Script" path="res://Scripts/Enemy.gd" id="1_xjc0e"]
+[ext_resource type="PackedScene" uid="uid://dxxm1f2oqvqvg" path="res://Assets/Entities/Decal.tscn" id="2_wbvkd"]
+[ext_resource type="AudioStream" uid="uid://cfscory1ght2u" path="res://Assets/Sounds/Boom1.wav" id="3_u62ql"]
 
-[node name="Ranged Enemy" type="Node2D"]
+[sub_resource type="Curve" id="Curve_xn5vw"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_jaqv3"]
+offsets = PackedFloat32Array(0, 0.582418, 1)
+colors = PackedColorArray(0, 1, 0, 1, 0.792157, 0, 0.792157, 1, 1, 1, 0, 1)
+
+[node name="Ranged Enemy" type="CharacterBody2D"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_xjc0e")
+decaltoplace = ExtResource("2_wbvkd")
+player_distance = 600.0
+repulsion_strength = 1.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0.600006, -20.6)
+rotation = 1.5708
 texture = ExtResource("1_khj6d")
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(0.600006, -20.6)
+rotation = 1.5708
+polygon = PackedVector2Array(1, -49, 55, 59, -57, 59)
+
+[node name="Explode" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_u62ql")
+
+[node name="Particles" type="CPUParticles2D" parent="."]
+position = Vector2(0.600006, -20.6)
+emitting = false
+amount = 50
+lifetime = 2.0
+explosiveness = 1.0
+direction = Vector2(1, 1)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_max = 286.85
+scale_amount_min = 16.94
+scale_amount_max = 16.94
+scale_amount_curve = SubResource("Curve_xn5vw")
+color_ramp = SubResource("Gradient_jaqv3")

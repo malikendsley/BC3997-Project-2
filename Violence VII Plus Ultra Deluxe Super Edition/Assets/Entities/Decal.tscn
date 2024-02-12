@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxxm1f2oqvqvg"]
+
+[ext_resource type="Texture2D" uid="uid://ct200qonei6fc" path="res://Art/Splatter.png" id="1_rl2gs"]
+
+[node name="Decal" type="Node2D"]
+scale = Vector2(2, 2)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(48, 0)
+texture = ExtResource("1_rl2gs")

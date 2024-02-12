@@ -1,15 +1,15 @@
 [gd_scene load_steps=5 format=3 uid="uid://8djhav3kpfb5"]
 
 [ext_resource type="Texture2D" uid="uid://bvd6u7nje4h8l" path="res://Art/bullet.png" id="1_l1oiv"]
-[ext_resource type="Script" path="res://Assets/Entities/Bullet.gd" id="1_pkcr8"]
+[ext_resource type="Script" path="res://Scripts/Bullet.gd" id="1_ovcji"]
 [ext_resource type="AudioStream" uid="uid://cdep515kopcip" path="res://Assets/Sounds/Impact.wav" id="3_jd4ja"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n2lta"]
 radius = 12.0416
 
 [node name="Bullet" type="Node2D"]
-scale = Vector2(2, 2)
-script = ExtResource("1_pkcr8")
+scale = Vector2(1.5, 1.5)
+script = ExtResource("1_ovcji")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
