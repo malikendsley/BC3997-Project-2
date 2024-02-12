@@ -1,10 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://crphbn73mfnp8"]
+[gd_scene load_steps=13 format=3 uid="uid://crphbn73mfnp8"]
 
 [ext_resource type="Script" path="res://Scripts/Level Controller.gd" id="1_hn438"]
 [ext_resource type="Texture2D" uid="uid://e0bhljefm04l" path="res://Art/tile.png" id="2_6lsgg"]
 [ext_resource type="PackedScene" uid="uid://d2q4ht25t15qf" path="res://Assets/Entities/Melee Enemy.tscn" id="2_vn5of"]
 [ext_resource type="PackedScene" uid="uid://biyy2twm8uqmt" path="res://Assets/Entities/Ranged Enemy.tscn" id="3_lksti"]
 [ext_resource type="PackedScene" uid="uid://d17cifkc0xv1j" path="res://Assets/Entities/Player.tscn" id="5_inm5o"]
+[ext_resource type="PackedScene" uid="uid://0110fell0n21" path="res://Assets/Entities/BigBullet.tscn" id="6_fp82p"]
+[ext_resource type="Texture2D" uid="uid://b1h5xk7td7p7n" path="res://Art/Crosshair.png" id="6_oonia"]
+[ext_resource type="Script" path="res://Scripts/Crosshair.gd" id="7_rlf2v"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x5qit"]
 texture = ExtResource("2_6lsgg")
@@ -20,6 +23,13 @@ texture_region_size = Vector2i(128, 128)
 [sub_resource type="TileSet" id="TileSet_mmn2j"]
 tile_size = Vector2i(128, 128)
 sources/0 = SubResource("TileSetAtlasSource_x5qit")
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_p6ykd"]
+thickness = 20
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_s5xle"]
+color = Color(0, 0.823529, 0.101961, 1)
+thickness = 18
 
 [node name="Node2D" type="Node2D"]
 
@@ -37,13 +47,24 @@ layer_0/tile_data = PackedInt32Array(-3932241, 0, 0, -3866705, 0, 0, -3801169, 0
 
 [node name="Decals" type="Node2D" parent="Level"]
 
-[node name="Player" parent="Level" node_paths=PackedStringArray("scoretext") instance=ExtResource("5_inm5o")]
+[node name="Player" parent="Level" node_paths=PackedStringArray("bomb_ui", "scoretext", "progressbar") instance=ExtResource("5_inm5o")]
+z_index = 100
+big_bullet = ExtResource("6_fp82p")
+bomb_ui = NodePath("../../CanvasLayer/Control/MarginContainer/Label2")
+initial_fire_rate = 10
 scoretext = NodePath("../../CanvasLayer/Control/MarginContainer/Label")
+progressbar = NodePath("../../CanvasLayer/Control/MarginContainer/ProgressBar")
 
 [node name="Gameplay" type="Node2D" parent="Level"]
 
 [node name="LevelTimer" type="Timer" parent="Level"]
 autostart = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Level"]
+modulate = Color(1, 1, 1, 0.509804)
+scale = Vector2(2, 2)
+texture = ExtResource("6_oonia")
+script = ExtResource("7_rlf2v")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -55,6 +76,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -86.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.227451, 0.227451, 0.227451, 1)
+
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control"]
 layout_mode = 1
 anchors_preset = 15
@@ -62,10 +94,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 50
-theme_override_constants/margin_top = 50
-theme_override_constants/margin_right = 50
-theme_override_constants/margin_bottom = 50
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
 
 [node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer"]
 layout_mode = 2
@@ -73,5 +105,18 @@ size_flags_horizontal = 0
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 32
 text = "VIOLENCE: 0"
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/Control/MarginContainer"]
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxLine_p6ykd")
+theme_override_styles/fill = SubResource("StyleBoxLine_s5xle")
+value = 100.0
+show_percentage = false
+
+[node name="Label2" type="Label" parent="CanvasLayer/Control/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "Bomb!"
 
 [connection signal="timeout" from="Level/LevelTimer" to="Level" method="spawn_enemies"]

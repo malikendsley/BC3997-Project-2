@@ -1,13 +1,12 @@
 extends Node2D
 
-class_name Bullet
-
 var player : Player # ref
 
 var fired = false
 var direction
 var speed
-
+@export var scorch : PackedScene
+@export var explosion : PackedScene
 
 func fire(dir, spd, playerref):
 	fired = true
@@ -28,17 +27,15 @@ func _process(delta):
 
 func _on_area_2d_body_entered(body:Node2D):
 	if body is MeleeEnemy:
-		body.damage()
-		if $Impact:
-			$Impact.play()
-		else:
-			return
-		var sound = $Impact
-		remove_child(sound)
-		var particles = $Particles
-		remove_child(particles)
-		get_parent().add_child(particles)
-		get_parent().add_child(sound)
-		if particles:
-			particles.set_deferred("emitting", false)
+		var s = scorch.instantiate()
+		var e = explosion.instantiate()
+		s.position = body.global_position
+		e.position = body.global_position
+		get_tree().get_root().get_node("Node2D/Level/Decals").add_child(s)
+		get_tree().get_root().get_node("Node2D/Level/Decals").add_child(e)
+		# Detonate the bullet
+		var nodes = $BombArea.get_overlapping_bodies()
+		for node in nodes:
+			if node is MeleeEnemy:
+				node.die()
 		queue_free()

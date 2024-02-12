@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://e0cxgvjco2tn"]
+
+[ext_resource type="Texture2D" uid="uid://dbyusudewcuts" path="res://Art/scorch.png" id="1_lmyd4"]
+
+[node name="Scorch" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_lmyd4")

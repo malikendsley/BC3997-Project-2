@@ -1,0 +1,43 @@
+[gd_scene load_steps=8 format=3 uid="uid://0110fell0n21"]
+
+[ext_resource type="Script" path="res://Scripts/BigBullet.gd" id="1_7i8hq"]
+[ext_resource type="PackedScene" uid="uid://e0cxgvjco2tn" path="res://Assets/Entities/Scorch.tscn" id="2_w1ulg"]
+[ext_resource type="Texture2D" uid="uid://bvd6u7nje4h8l" path="res://Art/bullet.png" id="2_ykt23"]
+[ext_resource type="AudioStream" uid="uid://bpdruu4cc0q08" path="res://Assets/Sounds/Big Explosion.wav" id="3_3lb8x"]
+[ext_resource type="PackedScene" uid="uid://boifjsc57mo52" path="res://Assets/Entities/Explosion.tscn" id="3_3ue2i"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_n2lta"]
+radius = 12.0416
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_543wx"]
+radius = 188.767
+
+[node name="Bullet" type="Node2D"]
+modulate = Color(0, 1, 0.627451, 1)
+script = ExtResource("1_7i8hq")
+scorch = ExtResource("2_w1ulg")
+explosion = ExtResource("3_3ue2i")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(3, 3)
+texture = ExtResource("2_ykt23")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_n2lta")
+
+[node name="Impact" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_3lb8x")
+
+[node name="BombArea" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BombArea"]
+shape = SubResource("CircleShape2D_543wx")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

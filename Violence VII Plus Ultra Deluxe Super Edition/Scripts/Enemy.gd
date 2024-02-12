@@ -5,7 +5,7 @@ var player : Player
 var othermelees : Array
 var otherranged : Array
 var all : Array
-var type = "melee"
+@export var type = "melee"
 var hp : int = 3
 @export var decaltoplace : PackedScene
 var speed : float = 100.0  # Speed of the enemy
@@ -66,37 +66,42 @@ func avoid_others():
 	
 	return separation_vec
 
+func die():
+	Events.enemy_died.emit()
+	# Make the decal a child of the Level/Decals/ node
+	var decal = decaltoplace.instantiate()
+	decal.position = position
+	# get the dir vector between the player and the enemy
+	var dir = player.global_position - global_position
+	
+	# Get a rotation off the X axis from this vector
+	var angle = dir.angle()
+
+	# Set the rotation of the decal to this angle + 180 degrees
+	decal.rotation = angle + PI 
+	decal.modulate = Color.from_hsv(randf(), 1, 1) 
+	#reparent the decal to the level
+	decalparentnoderef.add_child(decal)
+
+	$CollisionShape2D.set_deferred("disabled", true)  # Disable collision
+	#TODO: explode
+	$Particles.emitting = true
+	$Explode.play()  # Play the explosion sound
+	# Remove from scene
+	$Sprite2D.visible = false
+	othermelees.erase(self)
+	active = false
+	await get_tree().create_timer(2).timeout
+	# Remove self from melee array
+	queue_free()
+
 func damage():
 	if not active:
 		return
 	hp -= 1
 	if hp <= 0:
-		# Paint the decal onto the ground
-		# Make the decal a child of the Level/Decals/ node
-		var decal = decaltoplace.instantiate()
-		decal.position = position
-		print("Rotation: ", position.angle_to(player.position))
-		# get the dir vector between the player and the enemy
-		var dir = player.global_position - global_position
-		
-		# Get a rotation off the X axis from this vector
-		var angle = dir.angle()
-
-		# Set the rotation of the decal to this angle + 180 degrees
-		decal.rotation = angle + PI 
-		decal.modulate = Color.from_hsv(randf(), 1, 1) 
-		#reparent the decal to the level
-		decalparentnoderef.add_child(decal)
-
-		$CollisionShape2D.set_deferred("disabled", true)  # Disable collision
-		#TODO: explode
-		$Particles.emitting = true
-		player.score += 100  # Assume player has a score property to increment
-		$Explode.play()  # Play the explosion sound
-		# Remove from scene
-		$Sprite2D.visible = false
-		othermelees.erase(self)
-		active = false
-		await get_tree().create_timer(2).timeout
-		# Remove self from melee array
-		queue_free()
+		die()
+	else:
+		$Sprite2D.modulate = Color(1, 0, 0, 1)
+		await get_tree().create_timer(0.5).timeout
+		$Sprite2D.modulate = Color(1, 1, 1, 1)

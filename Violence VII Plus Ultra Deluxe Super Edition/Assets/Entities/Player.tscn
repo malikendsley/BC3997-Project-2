@@ -1,17 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://d17cifkc0xv1j"]
+[gd_scene load_steps=8 format=3 uid="uid://d17cifkc0xv1j"]
 
 [ext_resource type="Script" path="res://Scripts/Player Controller.gd" id="1_6ncyf"]
 [ext_resource type="PackedScene" uid="uid://8djhav3kpfb5" path="res://Assets/Entities/Bullet.tscn" id="2_j11st"]
 [ext_resource type="Script" path="res://Scripts/CameraController.gd" id="3_yhow3"]
 [ext_resource type="Texture2D" uid="uid://coi0cyvrdy85d" path="res://Art/player.png" id="4_3p0if"]
 [ext_resource type="AudioStream" uid="uid://qrj20l7o3fd" path="res://Assets/Sounds/Shoot.wav" id="5_i1qqb"]
+[ext_resource type="AudioStream" uid="uid://naoaf63wlnui" path="res://Assets/Sounds/BigShoot.wav" id="6_n7656"]
+[ext_resource type="AudioStream" uid="uid://cnc50ifxjh7wh" path="res://Assets/Sounds/Reload.wav" id="7_ahh40"]
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("scoretext")]
+[node name="Player" type="CharacterBody2D"]
 rotation = -1.5708
 script = ExtResource("1_6ncyf")
 bullet = ExtResource("2_j11st")
 initial_fire_rate = 6
-scoretext = NodePath("")
 
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(0.5, 0.5)
@@ -30,11 +31,17 @@ polygon = PackedVector2Array(69, 17, -42, 16, 12, -93)
 
 [node name="FireTimer" type="Timer" parent="."]
 
+[node name="FireSpaceTimer" type="Timer" parent="."]
+
 [node name="Shoot" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_i1qqb")
 max_polyphony = 8
 
-[node name="LoseTimer" type="Timer" parent="."]
+[node name="BigShoot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_n7656")
+
+[node name="Reload" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_ahh40")
 
 [connection signal="timeout" from="FireTimer" to="." method="_on_fire_timer_timeout"]
-[connection signal="timeout" from="LoseTimer" to="." method="_on_lose_timer_trigger"]
+[connection signal="timeout" from="FireSpaceTimer" to="." method="_on_FireSpaceTimer_timeout"]

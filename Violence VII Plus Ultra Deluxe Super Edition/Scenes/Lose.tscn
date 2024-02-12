@@ -1,0 +1,85 @@
+[gd_scene load_steps=4 format=3 uid="uid://cc76vb7n4g6tv"]
+
+[ext_resource type="Theme" uid="uid://cmw1lrtck6wrl" path="res://new_theme.tres" id="1_emuqr"]
+[ext_resource type="Script" path="res://Scripts/GameOverController.gd" id="2_jbnju"]
+
+[sub_resource type="Theme" id="Theme_sf257"]
+
+[node name="Lose" type="Control" node_paths=PackedStringArray("scorelabel")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_emuqr")
+script = ExtResource("2_jbnju")
+scorelabel = NodePath("MarginContainer/HBoxContainer/Label4")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_sf257")
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="HBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer"]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 64
+text = "YOU WERE CAPTURED"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "THEY WILL PUT YOU IN THE HISTORY BOOKS
+"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="MarginContainer/HBoxContainer"]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "AND NOT IN THE GOOD PART"
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="MarginContainer/HBoxContainer"]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "
+FINAL VIOLENCE:"
+horizontal_alignment = 1
+
+[node name="HBoxContainer2" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Button" type="Button" parent="MarginContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 32
+text = "FIGHT ON"
+
+[node name="Button2" type="Button" parent="MarginContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 32
+text = "GIVE UP"
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer2/Button" to="." method="cont"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer2/Button2" to="." method="quit"]
